@@ -1,0 +1,11 @@
+interfaces:
+  interfaces.IPayment:
+    [services.payment.CashPayment, services.payment.MelatGateway]
+  interfaces.IShipping:
+    [services.shipping.PishtazShipping, services.shipping.AloPeikShipping]
+credentials:
+  services.external.MelatBank:
+    token: "akhdcs55232rfc"
+  services.external.Post:
+    username: "Store"
+    password: "csf41f5556fv1"
