@@ -41,4 +41,5 @@ public interface IShipping {
      */
     public Date getEndDate();
 
+    public String getName();
 }

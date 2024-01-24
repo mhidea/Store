@@ -6,7 +6,7 @@ public class ParsianGateway implements IBankGateway {
 
     @Override
     public void requestTransaction(Double amount) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'requestTransaction'");
     }
 
@@ -17,13 +17,13 @@ public class ParsianGateway implements IBankGateway {
 
     @Override
     public void setAmount() {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'setAmount'");
     }
 
     @Override
     public double getAmount() {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'getAmount'");
     }
 

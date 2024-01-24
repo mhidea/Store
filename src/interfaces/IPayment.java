@@ -6,4 +6,10 @@ public interface IPayment {
 
     public double getAmount();
 
+    /**
+     * Returns the full name of payment method.
+     * 
+     * @return name of payment method.
+     */
+    public String getName();
 }

@@ -1,10 +1,19 @@
 interfaces:
   interfaces.IPayment:
-    [services.payment.CashPayment, services.payment.MelatGateway]
+    - services.payment.CashPayment
+    - services.payment.MelatGateway
   interfaces.IShipping:
-    [services.shipping.PishtazShipping, services.shipping.AloPeikShipping]
+    - services.shipping.PishtazShipping
+    - services.shipping.AloPeikShipping
+  interfaces.IAwardPolicy:
+    - services.award.AwardByCount
+mappers:
+  models.User: persistance.mappers.FileMapper
+  models.Product: persistance.mappers.FileMapper
+  models.Basket: persistance.mappers.BasketFileMapper
+
 credentials:
-  services.external.MelatBank:
+  services.payment.MelatGateway:
     token: "akhdcs55232rfc"
   services.external.Post:
     username: "Store"

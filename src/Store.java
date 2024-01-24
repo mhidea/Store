@@ -1,6 +1,6 @@
-import catalogs.Payments;
-import catalogs.Shippings;
-import services.external.Factory;
+import catalogs.PaymentMethods;
+import catalogs.ShippingMethods;
+import services.ServiceFactory;
 
 /**
  * Store
@@ -10,10 +10,16 @@ public class Store {
     private static Store mStore;
 
     private Store() {
-        Factory.getMelatBank();
-        Factory.getPost();
-        new Payments();
-        new Shippings();
+        PaymentMethods m = ServiceFactory.getInstance().getPaymentMethods();
+        ShippingMethods sh = ServiceFactory.getInstance().getShippingMethods();
+        System.out.println("List of current payment methods:");
+        m.getNames().forEachRemaining(name -> {
+            System.out.println("  " + name);
+        });
+        System.out.println("List of current shipping methods:");
+        sh.getNames().forEachRemaining(name -> {
+            System.out.println("  " + name);
+        });
     }
 
     public static Store getInstance() {
