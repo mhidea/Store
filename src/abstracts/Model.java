@@ -1,15 +1,15 @@
 package abstracts;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import helper.Relation;
 
 public abstract class Model {
-    protected HashMap<String, String> map;
-    protected HashMap<String, Class<?>> relationMap;
+    protected LinkedHashMap<String, String> map;
+    protected LinkedHashMap<String, Class<?>> relationMap;
 
     public Model() {
-        map = new HashMap<>();
+        map = new LinkedHashMap<>();
 
         if (getIdName() != null) {
             map.put(getIdName(), null);
@@ -30,7 +30,7 @@ public abstract class Model {
 
     public abstract String[] getAttributes();
 
-    public final HashMap<String, String> getMap() {
+    public final LinkedHashMap<String, String> getMap() {
         return map;
     };
 
@@ -45,9 +45,13 @@ public abstract class Model {
     public void setValues(String[] values) {
         String[] attributes = getAttributes();
         for (int i = 0; i < getAttributes().length; i++) {
-            map.put(attributes[i], values[i]);
+            map.put(attributes[i], values[i] == null ? null : values[i]);
         }
+        setObjects();
     }
+
+    public void setObjects() {
+    };
 
     public String[] getValues() {
         return (String[]) map.values().toArray(new String[] {});
@@ -57,7 +61,7 @@ public abstract class Model {
         return (String[]) map.keySet().toArray(new String[] {});
     }
 
-    public void setValues(HashMap<String, String> m) {
+    public void setValues(LinkedHashMap<String, String> m) {
         for (String key : map.keySet()) {
             if (m.containsKey(key)) {
                 map.put(key, m.get(key));

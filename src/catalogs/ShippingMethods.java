@@ -1,8 +1,8 @@
 package catalogs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import interfaces.IShipping;
 
@@ -12,7 +12,7 @@ import interfaces.IShipping;
  */
 public class ShippingMethods {
 
-    private HashMap<String, IShipping> mShippings = new HashMap<>();
+    private LinkedHashMap<String, IShipping> mShippings = new LinkedHashMap<>();
 
     public ShippingMethods(ArrayList<IShipping> isl) {
         mShippings.clear();
@@ -23,6 +23,10 @@ public class ShippingMethods {
 
     public Iterator<String> getNames() {
         return mShippings.keySet().iterator();
+    }
+
+    public IShipping getMethod(String name) {
+        return mShippings.get(name);
     }
 
 }

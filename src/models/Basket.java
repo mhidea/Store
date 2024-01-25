@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 import abstracts.PersistanceModel;
 import interfaces.IOrderListener;
@@ -16,6 +17,16 @@ public class Basket extends PersistanceModel {
     final String OPEN = "open";
     final String ORDERED = "ordered";
     final String RETURNED = "returned";
+    Payment payment = null;
+    Shipping shipping = null;
+
+    public Basket() {
+        super();
+    }
+
+    public Basket(String id) throws Exception {
+        super(id);
+    }
 
     public Basket(User user) {
         super();
@@ -25,7 +36,7 @@ public class Basket extends PersistanceModel {
 
     @Override
     public String[] getAttributes() {
-        return new String[] { "id", "user_id", "items", "state" };
+        return new String[] { "id", "user_id", "items", "state", "shipping_id", "payment_id" };
     }
 
     public void addToBasket(BasketItem item) {
@@ -50,15 +61,68 @@ public class Basket extends PersistanceModel {
         listeners.add(listener);
     }
 
-    public void finalize(IPayment payment, IShipping shipping) {
+    public void finalize(IPayment paymentMethod, IShipping shippingMethod) {
         setValue("state", ORDERED);
+        payment = new Payment(this, paymentMethod);
+        shipping = new Shipping(this, shippingMethod);
         this.save();
         for (IOrderListener listener : listeners) {
             listener.OnOrder(this);
         }
     }
 
+    public int getTotal() {
+        return items.stream().reduce(0, new BiFunction<Integer, BasketItem, Integer>() {
+            @Override
+            public Integer apply(Integer sum, BasketItem item) {
+                Product p;
+                try {
+                    p = new Product(item.getProductId());
+                    int c = Integer.parseInt(item.getCount());
+                    int pr = Integer.parseInt(p.getPrice());
+                    return sum + (c * pr);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return sum;
+            }
+        }, Integer::sum);
+    }
+
     public static List<Basket> getAll(User user) {
         return PersistanceFacade.getInstance().search(Basket.class, "user_id", user.getId());
     }
+
+    @Override
+    public void setObjects() {
+        String _id = getValue("shipping_id");
+        try {
+            if (_id != null) {
+                payment = new Payment(_id);
+            }
+            _id = getValue("payment_id");
+            if (_id != null) {
+                shipping = new Shipping(_id);
+            }
+        } catch (Exception e) {
+        }
+        String[] is = getValue("items").split("#");
+        items.clear();
+        for (String string : is) {
+            addToBasket(new BasketItem(string));
+        }
+    }
+
+    @Override
+    public void saveObjects() {
+        if (shipping != null) {
+            shipping.save();
+            setValue("shipping_id", shipping.getId());
+        }
+        if (payment != null) {
+            payment.save();
+            setValue("payment_id", payment.getId());
+        }
+    }
+
 }

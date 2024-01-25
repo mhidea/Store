@@ -7,9 +7,9 @@ import java.util.List;
 
 import abstracts.PersistanceModel;
 import helper.ConfigManager;
+import interfaces.IBackupAble;
 import interfaces.IDriver;
 import interfaces.IMapper;
-import persistance.mappers.FileMapper;
 
 @SuppressWarnings("unchecked")
 public class PersistanceFacade {
@@ -56,10 +56,9 @@ public class PersistanceFacade {
         return m;
     }
 
-    public <T extends PersistanceModel, A> T save(T model) {
+    public <T extends PersistanceModel, A, S> T save(T model) {
         IMapper<A, T> mp;
         try {
-            new FileMapper<>(model.getClass());
             Class<IMapper<A, T>> cm = (Class<IMapper<A, T>>) mappers.get(model.getClass());
             mp = cm.getConstructor(new Class[] { model.getClass().getClass() })
                     .newInstance(model.getClass());
@@ -69,6 +68,13 @@ public class PersistanceFacade {
                 model.setID(id);
             } else {
                 driver.update(model.getId(), mp.getData(model));
+            }
+
+            if (model instanceof IBackupAble) {
+                System.out.println("SAVING TO BACKUP");
+                IMapper<S, T> im = (IMapper<S, T>) ((IBackupAble) model).getMapper();
+                IDriver<S> backupDriver = im.getDriver();
+                backupDriver.insert(im.getData(model));
             }
 
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -84,7 +90,8 @@ public class PersistanceFacade {
             IMapper<A, T> mp = (IMapper<A, T>) mappers.get(c).getConstructor(new Class[] { c.getClass() })
                     .newInstance(c);
             IDriver<A> d = mp.getDriver();
-            for (A o : d.findAll((String) mp.search(attribute, value))) {
+            A[] as = d.findAll((String) mp.search(attribute, value));
+            for (A o : as) {
                 list.add((T) mp.getModel(o));
             }
 

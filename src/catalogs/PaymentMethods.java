@@ -1,8 +1,8 @@
 package catalogs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import interfaces.IPayment;
 
@@ -12,7 +12,7 @@ import interfaces.IPayment;
  */
 public class PaymentMethods {
 
-    private HashMap<String, IPayment> mBankGateways = new HashMap<>();
+    private LinkedHashMap<String, IPayment> mBankGateways = new LinkedHashMap<>();
 
     public PaymentMethods(ArrayList<IPayment> iPayments) {
         mBankGateways.clear();
@@ -23,5 +23,9 @@ public class PaymentMethods {
 
     public Iterator<String> getNames() {
         return mBankGateways.keySet().iterator();
+    }
+
+    public IPayment getMethod(String name) {
+        return mBankGateways.get(name);
     }
 }

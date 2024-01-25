@@ -6,6 +6,7 @@ public class User extends PersistanceModel {
 
     public User() {
         super();
+        setValue("score", "0");
     }
 
     public User(String id) throws Exception {
@@ -13,7 +14,7 @@ public class User extends PersistanceModel {
     }
 
     public String[] getAttributes() {
-        return new String[] { "id", "name" };
+        return new String[] { "id", "name", "score" };
     }
 
     public String getName() {

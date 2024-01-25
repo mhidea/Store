@@ -12,4 +12,5 @@ public interface IPayment {
      * @return name of payment method.
      */
     public String getName();
+
 }

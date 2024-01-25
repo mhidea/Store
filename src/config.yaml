@@ -10,7 +10,9 @@ interfaces:
 mappers:
   models.User: persistance.mappers.FileMapper
   models.Product: persistance.mappers.FileMapper
-  models.Basket: persistance.mappers.BasketFileMapper
+  models.Basket: persistance.mappers.FileMapper
+  models.Shipping: persistance.mappers.FileMapper
+  models.Payment: persistance.mappers.FileMapper
 
 credentials:
   services.payment.MelatGateway:

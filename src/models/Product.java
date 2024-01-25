@@ -8,13 +8,18 @@ public class Product extends PersistanceModel {
         super();
     }
 
+    public Product(User owner) {
+        super();
+        setValue("owner", owner.getId());
+    }
+
     public Product(String id) throws Exception {
         super(id);
     }
 
     @Override
     public String[] getAttributes() {
-        return new String[] { "id", "name", "price", "count" };
+        return new String[] { "id", "name", "price", "count", "owner" };
     }
 
     public void setName(String name) {
@@ -27,6 +32,10 @@ public class Product extends PersistanceModel {
 
     public void setCount(int count) {
         this.setValue("count", count + "");
+    }
+
+    public String getPrice() {
+        return this.getValue("price");
     }
 
 }

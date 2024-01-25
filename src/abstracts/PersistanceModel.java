@@ -66,6 +66,7 @@ public abstract class PersistanceModel extends Model implements IPersistance {
     }
 
     public void save() {
+        saveObjects();
         this.state.save();
     }
 
@@ -79,5 +80,8 @@ public abstract class PersistanceModel extends Model implements IPersistance {
 
     public void delete() {
         this.state.delete();
+    }
+
+    public void saveObjects() {
     }
 }

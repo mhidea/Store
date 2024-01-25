@@ -33,7 +33,6 @@ public class FileDriver implements IDriver<String> {
 
     public String findById(String id) {
         System.out.println("LOOKING FOR " + id);
-
         String row = null;
         Scanner scanner;
         try {
@@ -47,7 +46,6 @@ public class FileDriver implements IDriver<String> {
             }
             scanner.close();
         } catch (FileNotFoundException e) {
-
             e.printStackTrace();
         }
         return row;
@@ -97,8 +95,10 @@ public class FileDriver implements IDriver<String> {
             // Reading lines of the file and appending them to StringBuffer
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                buffer.append(line + System.lineSeparator());
-                index = Math.max(index, Integer.parseInt(line.split(",")[0].replaceAll(" ", "")));
+                if (line.contains(",")) {
+                    buffer.append(line + System.lineSeparator());
+                    index = Math.max(index, Integer.parseInt(line.split(",")[0].replaceAll(" ", "")));
+                }
             }
             // closing the Scanner object
             sc.close();
