@@ -1,29 +1,57 @@
 package persistance.drivers;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import interfaces.IDriver;
 
-public class SqlDriver implements IDriver<String> {
+public class SqlDriver implements IDriver<ResultSet> {
+    private String destination = null;
+    String sqlSelectAllPersons = "SELECT * FROM person";
+    String connectionUrl = "jdbc:mysql://localhost:3306/test?serverTimezone=UTC";
+    final String username = "username";
+    final String password = "password";
+    Connection conn;
+
+    public SqlDriver(String destination) {
+        this.destination = destination;
+        try {
+            conn = DriverManager.getConnection(connectionUrl, username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public String getDestination() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDestination'");
+        return destination;
     }
 
     @Override
-    public String findById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    public ResultSet findById(String id) {
+        PreparedStatement ps;
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement("SELECT * FROM " + getDestination() + " WHERE id=" + id);
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return rs;
     }
 
     @Override
-    public String[] findAll(String search) {
+    public ResultSet[] findAll(String search) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
 
     @Override
-    public String insert(String data) {
+    public String insert(ResultSet data) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'insert'");
     }
@@ -35,7 +63,7 @@ public class SqlDriver implements IDriver<String> {
     }
 
     @Override
-    public void update(String id, String data) {
+    public void update(String id, ResultSet data) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
