@@ -9,6 +9,7 @@ import interfaces.IOrderListener;
 import interfaces.IPayment;
 import interfaces.IShipping;
 import persistance.PersistanceFacade;
+import services.Factory;
 
 public class Basket extends PersistanceModel {
 
@@ -62,6 +63,17 @@ public class Basket extends PersistanceModel {
     }
 
     public void finalize(IPayment paymentMethod, IShipping shippingMethod) {
+        if (getValue("state").equals(ORDERED)) {
+            return;
+        }
+        int points = Factory.getInstance().getAwardPolicy().getPoints(this);
+        try {
+            User user = new User(getValue("user_id"));
+            user.setValue("score", "" + (Integer.parseInt(user.getScore()) + points));
+            user.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setValue("state", ORDERED);
         payment = new Payment(this, paymentMethod);
         shipping = new Shipping(this, shippingMethod);

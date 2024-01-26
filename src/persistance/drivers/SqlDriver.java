@@ -10,7 +10,6 @@ import interfaces.IDriver;
 
 public class SqlDriver implements IDriver<ResultSet> {
     private String destination = null;
-    String sqlSelectAllPersons = "SELECT * FROM person";
     String connectionUrl = "jdbc:mysql://localhost:3306/test?serverTimezone=UTC";
     final String username = "username";
     final String password = "password";
@@ -38,7 +37,6 @@ public class SqlDriver implements IDriver<ResultSet> {
             ps = conn.prepareStatement("SELECT * FROM " + getDestination() + " WHERE id=" + id);
             rs = ps.executeQuery();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return rs;
@@ -46,25 +44,25 @@ public class SqlDriver implements IDriver<ResultSet> {
 
     @Override
     public ResultSet[] findAll(String search) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
 
     @Override
     public String insert(ResultSet data) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'insert'");
     }
 
     @Override
     public void delete(String id) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
     @Override
     public void update(String id, ResultSet data) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 

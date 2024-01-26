@@ -19,7 +19,6 @@ public class CreateObjects {
                 product.save();
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

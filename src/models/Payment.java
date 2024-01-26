@@ -4,7 +4,7 @@ import abstracts.PersistanceModel;
 import interfaces.IBackupAble;
 import interfaces.IMapper;
 import interfaces.IPayment;
-import persistance.mappers.SocketMapper;
+import persistance.mappers.ProxyBackupMapper;
 
 public class Payment extends PersistanceModel implements IBackupAble {
 
@@ -32,7 +32,7 @@ public class Payment extends PersistanceModel implements IBackupAble {
 
     @Override
     public IMapper<?, ?> getMapper() {
-        return new SocketMapper<>(this.getClass());
+        return new ProxyBackupMapper<>(this.getClass());
     }
 
 }

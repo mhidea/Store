@@ -13,13 +13,13 @@ public class SocketDriver implements IDriver<String> {
 
     private String destination = null;
 
-    public SocketDriver(String destination) {
+    public SocketDriver(String destination) throws Exception {
         this.destination = destination;
-        try {
-            socket = new Socket("127.0.0.1", 5005);
-        } catch (IOException e) {
-            e.printStackTrace();
+        socket = new Socket("127.0.0.1", 5005);
+        if (!socket.isConnected()) {
+            throw new Exception("NOT connected");
         }
+
     }
 
     public String findById(String id) {
@@ -43,7 +43,6 @@ public class SocketDriver implements IDriver<String> {
             os.write(data.getBytes());
             os.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -58,7 +57,6 @@ public class SocketDriver implements IDriver<String> {
             os.write("\\n".getBytes());
             os.close();
         } catch (NumberFormatException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

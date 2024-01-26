@@ -20,6 +20,7 @@ public class FileMapper<M extends PersistanceModel> implements IMapper<String, M
         return class1.getName().replace("models.", "");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public FileDriver getDriver() {
         return new FileDriver(getDestination());

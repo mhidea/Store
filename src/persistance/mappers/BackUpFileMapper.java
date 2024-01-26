@@ -6,30 +6,24 @@ import java.util.List;
 
 import abstracts.PersistanceModel;
 import interfaces.IMapper;
-import persistance.drivers.SocketDriver;
+import persistance.drivers.FileDriver;
 
-public class SocketMapper<M extends PersistanceModel> implements IMapper<String, M> {
-
+public class BackUpFileMapper<M extends PersistanceModel> implements IMapper<String, M> {
     Class<M> class1 = null;
 
-    public SocketMapper(Class<M> class1) {
+    public BackUpFileMapper(Class<M> class1) {
         this.class1 = class1;
     }
 
     @Override
     public String getDestination() {
-        return class1.getName().replace("models.", "");
+        return "backup/" + class1.getName().replace("models.", "");
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public SocketDriver getDriver() {
-        try {
-            return new SocketDriver(getDestination());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public FileDriver getDriver() {
+        return new FileDriver(getDestination());
     }
 
     @Override
@@ -66,4 +60,5 @@ public class SocketMapper<M extends PersistanceModel> implements IMapper<String,
         return "\\d*," + value + ",.*";
 
     }
+
 }

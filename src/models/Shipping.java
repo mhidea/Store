@@ -4,7 +4,7 @@ import abstracts.PersistanceModel;
 import interfaces.IBackupAble;
 import interfaces.IMapper;
 import interfaces.IShipping;
-import persistance.mappers.SocketMapper;
+import persistance.mappers.ProxyBackupMapper;
 
 public class Shipping extends PersistanceModel implements IBackupAble {
 
@@ -30,6 +30,6 @@ public class Shipping extends PersistanceModel implements IBackupAble {
 
     @Override
     public IMapper<?, ?> getMapper() {
-        return new SocketMapper<>(this.getClass());
+        return new ProxyBackupMapper<>(this.getClass());
     }
 }

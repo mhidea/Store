@@ -6,7 +6,7 @@ interfaces:
     - services.shipping.PishtazShipping
     - services.shipping.AloPeikShipping
   interfaces.IAwardPolicy:
-    - services.award.AwardByCount
+    - services.award.AwardByTotal
 mappers:
   models.User: persistance.mappers.FileMapper
   models.Product: persistance.mappers.FileMapper

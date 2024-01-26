@@ -25,4 +25,8 @@ public class User extends PersistanceModel {
         this.setValue("name", name);
     }
 
+    public String getScore() {
+        return getValue("score");
+    }
+
 }

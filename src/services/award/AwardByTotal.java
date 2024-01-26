@@ -7,7 +7,7 @@ public class AwardByTotal implements IAwardPolicy {
 
     @Override
     public int getPoints(Basket basket) {
-        return 0;
+        return basket.getTotal() / 100;
     }
 
 }
