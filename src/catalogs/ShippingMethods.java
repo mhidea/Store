@@ -1,8 +1,8 @@
 package catalogs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.stream.Stream;
 
 import interfaces.IShipping;
 
@@ -21,8 +21,8 @@ public class ShippingMethods {
         }
     }
 
-    public Iterator<String> getNames() {
-        return mShippings.keySet().iterator();
+    public Stream<String> getNames() {
+        return mShippings.keySet().stream();
     }
 
     public IShipping getMethod(String name) {

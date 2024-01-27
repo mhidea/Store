@@ -1,8 +1,8 @@
 package catalogs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.stream.Stream;
 
 import interfaces.IPayment;
 
@@ -21,8 +21,8 @@ public class PaymentMethods {
         }
     }
 
-    public Iterator<String> getNames() {
-        return mBankGateways.keySet().iterator();
+    public Stream<String> getNames() {
+        return mBankGateways.keySet().stream();
     }
 
     public IPayment getMethod(String name) {

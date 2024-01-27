@@ -56,7 +56,20 @@ public class FileMapper<M extends PersistanceModel> implements IMapper<String, M
 
     @Override
     public String search(String attribute, String value) {
+        try {
+            M m = class1.getConstructor().newInstance();
+            String[] keys = m.getKeys();
+            for (String key : keys) {
+                m.setValue(key, ".*");
+            }
+            m.setValue(attribute, value);
 
+            return String.join(",", m.getValues());
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return "\\d*," + value + ",.*";
 
     }
