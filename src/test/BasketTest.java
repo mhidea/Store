@@ -4,6 +4,7 @@ import java.util.List;
 
 import catalogs.PaymentMethods;
 import catalogs.ShippingMethods;
+import interfaces.IOrderListener;
 import models.Basket;
 import models.Product;
 import models.User;
@@ -29,7 +30,16 @@ public class BasketTest {
                 for (Basket basket : b) {
                     PaymentMethods paymentMethods = ServiceFactory.getInstance().getPaymentMethods();
                     ShippingMethods shippingMethods = ServiceFactory.getInstance().getShippingMethods();
+                    basket.addOrderListener(new IOrderListener() {
 
+                        @Override
+                        public void OnOrder(Basket basket) {
+                            System.out.println("SENDING NOTIFICATION TO INVENTORY.");
+                            System.out.println("SENDING NOTIFICATION TO SHIPPING OFFICE.");
+
+                        }
+
+                    });
                     basket.finalize(paymentMethods.getMethod("Melli Bank"), shippingMethods.getMethod("aloPeik"));
                     System.out.println(basket.getTotal());
                 }
